@@ -1,0 +1,1 @@
+rootProject.name = "socket.mbos.io.mbos-websocket-ktor"
