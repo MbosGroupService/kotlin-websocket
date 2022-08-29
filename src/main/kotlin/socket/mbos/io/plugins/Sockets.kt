@@ -7,6 +7,7 @@ import java.time.Duration
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.request.*
+import socket.mbos.io.sockets.loggingSocket
 import socket.mbos.io.sockets.topicSocket
 
 fun Application.configureSockets() {
@@ -17,6 +18,7 @@ fun Application.configureSockets() {
         masking = false
     }
     routing {
+        loggingSocket()
         topicSocket()
     }
 }

@@ -6,6 +6,7 @@ import io.ktor.websocket.*
 import kotlinx.coroutines.channels.ClosedReceiveChannelException
 import socket.mbos.io.topics.Topic
 import socket.mbos.io.topics.TopicCollection
+import socket.mbos.io.util.Logger
 import socket.mbos.io.util.generateId
 import socket.mbos.io.util.parameter
 import java.util.Collections
@@ -22,22 +23,22 @@ fun Route.topicSocket() {
 
         topic.add(connectionId, this)
 
-        println("${topic.name}: connected $connectionId")
+        Logger.info("${topic.name}: connected $connectionId")
 
         try  {
             for(frame in incoming) {
                 val text = (frame as Frame.Text).readText()
-                println("[${topic.name}]: incoming -> $text")
+                Logger.info("[${topic.name}]: incoming -> $text")
             }
-            println("[${topic.name}]: closed $connectionId -> ${closeReason.await()?.message}")
+            Logger.info("[${topic.name}]: closed $connectionId -> ${closeReason.await()?.message}")
             topic.remove(connectionId)
         }
         catch (e: ClosedReceiveChannelException) {
-            println("[${topic.name}]: disconnected $connectionId -> ${closeReason.await()}")
+            Logger.error("[${topic.name}]: disconnected $connectionId -> ${closeReason.await()}")
             topic.remove(connectionId)
         }
         catch (e: Throwable) {
-            println("[${topic.name}]: disconnected $connectionId -> ${closeReason.await()}")
+            Logger.error("[${topic.name}]: disconnected $connectionId -> ${closeReason.await()}")
             topic.remove(connectionId)
         }
     }

@@ -7,6 +7,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import socket.mbos.io.topics.TopicCollection
 import socket.mbos.io.topics.TopicCollection.allConnections
+import socket.mbos.io.util.Logger
 import socket.mbos.io.util.parameter
 
 fun Route.connectionRouting() {
@@ -14,7 +15,7 @@ fun Route.connectionRouting() {
         get {
             val connections = allConnections()
             call.respond(HttpStatusCode.OK, connections)
-            println("GET /connections: $connections")
+            Logger.info("GET /connections: $connections")
         }
     }
 
@@ -23,7 +24,7 @@ fun Route.connectionRouting() {
             val name = parameter("topic") ?: return@post call.respond(HttpStatusCode.BadRequest, "topic not provided")
             val body = call.receive<Any>()
 
-            println("event to [$name]: $body")
+            Logger.info("event to [$name]: $body")
 
             call.respond(HttpStatusCode.OK)
 

@@ -16,7 +16,6 @@ open class Topic(
     fun add(id: String, connection: DefaultWebSocketSession) {
         connections[id] = connection
     }
-
     fun remove(id: String) {
         connections.remove(id)
     }
