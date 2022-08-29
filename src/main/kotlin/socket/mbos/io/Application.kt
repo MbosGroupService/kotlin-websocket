@@ -5,7 +5,7 @@ import io.ktor.server.netty.*
 import socket.mbos.io.plugins.*
 
 fun main() {
-    embeddedServer(Netty, port = 8080, host = "localhost") {
+    embeddedServer(Netty, port = 7970, host = "localhost") {
         configureSerialization()
         configureSockets()
         configureHTTP()
